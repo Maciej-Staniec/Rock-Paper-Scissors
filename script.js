@@ -31,11 +31,11 @@ function startGame() {
   handContainer.classList.add("hand-container");
   mainContainer.appendChild(handContainer);
   // Create players' hand images and append them to the 'hand-container' div.
-  const playerHand = document.createElement("img");
+  playerHand = document.createElement("img");
   playerHand.setAttribute("src", "images/rock.png");
   playerHand.setAttribute("alt", "player-hand");
   playerHand.setAttribute("id", "player-hand");
-  const compHand = document.createElement("img");
+  compHand = document.createElement("img");
   compHand.setAttribute("src", "images/rock.png");
   compHand.setAttribute("alt", "comp-hand");
   compHand.setAttribute("id", "comp-hand");
@@ -77,53 +77,83 @@ function drawOption(event) {
   const options = ["rock", "paper", "scissors"];
   const mainHeader = document.querySelector(".main-heading");
   const selection = event.target.textContent;
+  // get random selection for the computer
   const compSelection = options[Math.floor(Math.random() * options.length)];
   console.log("Player - " + selection);
   console.log("Computer - " + compSelection);
-  for (let i = 0; i < 3; i++){
-    
+  // Get img selectors after the GUI has been created
+  const handImages = document.querySelectorAll("img");
+  console.log(handImages);
+  // move up and down both hands
+  for (let i = 0; i < handImages.length; i++) {
+    handImages[i].setAttribute("src", "images/rock.png");
+    handImages[i].classList.add("animate-img");
   }
+  setTimeout(function () {
+    for (let i = 0; i < handImages.length; i++) {
+      handImages[i].classList.remove("animate-img");
+    }
+  }, 900);
+  // Check who won. Call the function once animation is finished
   setTimeout(function () {
     switch (selection) {
       case "rock":
         if (compSelection == "paper") {
-          mainHeader.textContent = "You lost...";
-          compScore += 1;
-          computerScoreText.textContent = compScore;
+          compHand.setAttribute("src", " images/paper.png");
+          playerLost(mainHeader);
         } else if (compSelection == "rock") {
-          mainHeader.textContent = "It's draw.";
+          draw(mainHeader);
         } else {
-          mainHeader.textContent = "You won!";
-          playerScore += 1;
-          playerScoreText.textContent = playerScore;
+          compHand.setAttribute("src", " images/scissors.png");
+          playerWon(mainHeader);
         }
         break;
       case "paper":
+        playerHand.setAttribute("src", " images/paper.png");
         if (compSelection == "paper") {
-          mainHeader.textContent = "It's draw.";
+          compHand.setAttribute("src", " images/paper.png");
+          draw(mainHeader);
         } else if (compSelection == "rock") {
-          mainHeader.textContent = "You won!";
-          playerScore += 1;
-          playerScoreText.textContent = playerScore;
+          playerWon(mainHeader);
         } else {
-          mainHeader.textContent = "You lost...";
-          compScore += 1;
-          computerScoreText.textContent = compScore;
+          compHand.setAttribute("src", " images/scissors.png");
+          playerLost(mainHeader);
         }
         break;
       case "scissors":
+        playerHand.setAttribute("src", " images/scissors.png");
         if (compSelection == "paper") {
-          mainHeader.textContent = "You won!";
-          playerScore += 1;
-          playerScoreText.textContent = playerScore;
+          compHand.setAttribute("src", " images/paper.png");
+          playerWon(mainHeader);
         } else if (compSelection == "rock") {
-          mainHeader.textContent = "You lost...";
-          compScore += 1;
-          computerScoreText.textContent = compScore;
+          playerLost(mainHeader);
         } else {
-          mainHeader.textContent = "It's draw.";
+          compHand.setAttribute("src", " images/scissors.png");
+          draw(mainHeader);
         }
         break;
     }
-  }, 3000);
+  }, 900);
+}
+
+function playerWon(header) {
+  setTimeout(function () {
+    header.textContent = "You won!";
+    playerScore += 1;
+    playerScoreText.textContent = playerScore;
+  }, 100);
+}
+
+function playerLost(header) {
+  setTimeout(function () {
+    header.textContent = "You lost...";
+    compScore += 1;
+    computerScoreText.textContent = compScore;
+  }, 100);
+}
+
+function draw(header) {
+  setTimeout(function () {
+    header.textContent = "It's draw.";
+  }, 100);
 }
