@@ -137,23 +137,17 @@ function drawOption(event) {
 }
 
 function playerWon(header) {
-  setTimeout(function () {
-    header.textContent = "You won!";
-    playerScore += 1;
-    playerScoreText.textContent = playerScore;
-  }, 100);
+  header.textContent = "You won!";
+  playerScore += 1;
+  playerScoreText.textContent = playerScore;
 }
 
 function playerLost(header) {
-  setTimeout(function () {
-    header.textContent = "You lost...";
-    compScore += 1;
-    computerScoreText.textContent = compScore;
-  }, 100);
+  header.textContent = "You lost...";
+  compScore += 1;
+  computerScoreText.textContent = compScore;
 }
 
 function draw(header) {
-  setTimeout(function () {
-    header.textContent = "It's draw.";
-  }, 100);
+  header.textContent = "It's draw.";
 }
